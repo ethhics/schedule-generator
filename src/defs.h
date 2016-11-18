@@ -14,8 +14,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_ENTRIES 255
-#define MAX_CLASSES 255
+#define MAX_ENTRIES 256
+#define MAX_CLASSES 256
 
 #define NUM_TOKENS 6
 #define DEPT_LEN 5

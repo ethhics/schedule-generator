@@ -9,7 +9,7 @@
 
 #include "defs.h"
 
-void clean_up(List *course_list)
+void clean_up(List *course_list, Schedule *sched)
 {
 	Course *cur_course;
 	Entry **cur_entries;
@@ -19,7 +19,8 @@ void clean_up(List *course_list)
 	unsigned int i, j, k;
 
 	for (i = 0; i < course_list->num_courses; ++i) {
-	cur_course = course_list->courses[i];
+		cur_course = course_list->courses[i];
+		if (cur_course == NULL) { continue; }
 		cur_entries = cur_course->entries;
 		for (j = 0; j < cur_course->num_entries; ++j) {
 			cur_entry = cur_entries[j];
@@ -37,6 +38,16 @@ void clean_up(List *course_list)
 		free(cur_course);
 	}
 	free(course_list);
+
+	free(sched->entries);
+	free(sched);
+}
+
+void safe_fputs(char *str, FILE *f)
+{
+	if (f != NULL) {
+		fputs(str, f);
+	}
 }
 
 int main(int argc, char *argv[])
@@ -61,7 +72,7 @@ int main(int argc, char *argv[])
 		/* Output "input" text to nowhere */
 		output_location = NULL;
 	}
-	fprintf(output_location, "How many courses are you taking? ");
+	safe_fputs("How many courses are you taking? ", output_location);
 	fgets(buffer, 255, input_location);
 	j = atoi(buffer);
 	if (j < 0) {
@@ -75,10 +86,10 @@ int main(int argc, char *argv[])
 		course_list->courses[i] = (Course*) malloc(sizeof(Course));
 	}
 
-	fputs("Enter a class in this format:\n", output_location);
-	fputs("00000 ABCD 123 MWF 08:00-08:50\n", output_location);
-	fputs("You can copy a section from the one above by using '~'\n", output_location);
-	fputs("Type 'done' when finished.\n", output_location);
+	safe_fputs("Enter a class in this format:\n", output_location);
+	safe_fputs("00000 ABCD 123 MWF 08:00-08:50\n", output_location);
+	safe_fputs("You can copy a section from the one above by using '~'\n", output_location);
+	safe_fputs("Type 'done' when finished.\n", output_location);
 
 	line_tokens = (char**) malloc(sizeof(char*) * NUM_TOKENS);
 	previous_tokens = (char**) malloc(sizeof(char*) * NUM_TOKENS);
@@ -131,9 +142,8 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	/* Clean up 
-	clean_up(course_list);
-	*/
+	/* Clean up */
+	/*clean_up(course_list, cur_schedule);*/
 
 	return 0;
 }

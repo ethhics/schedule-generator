@@ -7,7 +7,7 @@ build:
 	gcc $(FLAGS) -O3 src/*c -o bin/schedule_maker
 
 debug: clean
-	gcc $(FLAGS) $(ERRORS) -g *c
+	gcc $(FLAGS) $(ERRORS) -g src/*c -o bin/schedule_maker
 
 clean:
 	rm -f a.out
