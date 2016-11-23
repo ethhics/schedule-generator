@@ -4,10 +4,10 @@ FLAGS=-ansi -pedantic
 all: clean build
 
 build:
-	gcc $(FLAGS) -O3 src/*c -o bin/schedule_maker
+	gcc $(FLAGS) -O3 src/*c -o bin/schedule_generator
 
 debug: clean
-	gcc $(FLAGS) $(ERRORS) -g src/*c -o bin/schedule_maker
+	gcc $(FLAGS) $(ERRORS) -g src/*c -o bin/schedule_generator
 
 clean:
-	rm -f a.out
+	rm -f bin/*

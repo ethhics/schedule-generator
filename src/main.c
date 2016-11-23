@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* Clean up */
-	/*clean_up(course_list, cur_schedule);*/
+	clean_up(course_list, cur_schedule);
 
 	return 0;
 }
