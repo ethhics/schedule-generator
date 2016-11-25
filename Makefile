@@ -1,13 +1,22 @@
-ERRORS=-Wall -Wextra -Wshadow -Wcast-qual -Wcast-align -Wconversion -Wreturn-type -Wformat
-FLAGS=-ansi -pedantic
+CC       = gcc
+ERRORS   = -Wall -Wextra -Wshadow -Wcast-qual -Wcast-align -Wconversion -Wreturn-type -Wformat
+FLAGS    = -ansi -pedantic
+TESTS   := $(wildcard src/test/*c)
+SOURCES := $(wildcard src/*c)
+EXEC     = bin/schedule_generator
 
 all: clean build
 
 build:
-	gcc $(FLAGS) -O3 src/*c -o bin/schedule_generator
+	$(CC) $(FLAGS) -O3 $(SOURCES) -o $(EXEC)
 
 debug: clean
-	gcc $(FLAGS) $(ERRORS) -g src/*c -o bin/schedule_generator
+	$(CC) $(FLAGS) $(ERRORS) -g $(SOURCES) -o $(EXEC)
+
+test: clean $(TESTS:src/test/%.c=bin/%)
+
+bin/%: src/test/%.c
+	$(CC) $(FLAGS) $(ERRORS) -g $(filter-out src/main.c, $(SOURCES)) $< -o $@ 
 
 clean:
 	rm -f bin/*
