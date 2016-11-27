@@ -67,5 +67,25 @@ int main()
 	assert(strcmp(tokens[5], "23:59") == 0);
 	update_tokens(tokens, prev_tokens);
 
+	/* bad1 */
+	split_input_line(tokens, bad1);
+	assert(strcmp(tokens[0], "0000") == 0);
+	assert(strcmp(tokens[1], "MATH") == 0);
+	assert(strcmp(tokens[2], "222") == 0);
+	assert(strcmp(tokens[3], "MWF") == 0);
+	assert(strcmp(tokens[4], "08:00") == 0);
+	assert(strcmp(tokens[5], "09:00") == 0);
+	update_tokens(tokens, prev_tokens);
+
+	/* bad2 */
+	split_input_line(tokens, bad2);
+	assert(strcmp(tokens[0], "00000") == 0);
+	assert(strcmp(tokens[1], "MAT") == 0);
+	assert(strcmp(tokens[2], "222") == 0);
+	assert(strcmp(tokens[3], "MWF") == 0);
+	assert(strcmp(tokens[4], "08:00") == 0);
+	assert(strcmp(tokens[5], "09:00") == 0);
+	update_tokens(tokens, prev_tokens);
+
 	return 0;
 }

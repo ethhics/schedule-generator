@@ -59,6 +59,7 @@ typedef struct {
 } Schedule;
 
 /* input.c */
+void strsplit(char *str, char *token);
 void split_input_line(char **tokens, char *buffer);
 void parse_copy_tokens(char **tokens, char **prev_tokens);
 
