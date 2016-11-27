@@ -22,8 +22,8 @@ int main()
 	char bad1[]  = "0000  MATH 222 MWF 08:00-09:00\n";
 	char bad2[]  = "00000 MAT  222 MWF 08:00-09:00\n";
 
-	char **tokens = (char**) malloc(sizeof(char*) * 6);
-	char **prev_tokens = (char**) malloc(sizeof(*tokens));
+	char *tokens[6];
+	char *prev_tokens[6];
 
 	/* good1 */
 	split_input_line(tokens, good1);
