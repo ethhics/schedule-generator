@@ -14,7 +14,7 @@ Class* get_class_for_day(Entry *e, char day)
 	Class **classes = e->classes;
 	unsigned int i;
 	for (i = 0; i < e->num_classes; ++i) {
-		if (classes[i] == NULL) { continue; }
+		if (is_empty(classes[i])) { continue; }
 		if (strchr(classes[i]->days, day) != NULL) {
 			return classes[i];
 		}
