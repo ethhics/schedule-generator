@@ -44,12 +44,12 @@ char* strsplit(char *str, char *token)
 
 void split_input_line(char **tokens, char *buffer)
 {
-	tokens[0] = strsplit(buffer, " ");
-	tokens[1] = strsplit(NULL, " ");
-	tokens[2] = strsplit(NULL, " ");
-	tokens[3] = strsplit(NULL, " ");
-	tokens[4] = strsplit(NULL, "-");
-	tokens[5] = strsplit(NULL, "\n");
+	strcpy(tokens[0], strsplit(buffer, " "));
+	strcpy(tokens[1], strsplit(NULL, " "));
+	strcpy(tokens[2], strsplit(NULL, " "));
+	strcpy(tokens[3], strsplit(NULL, " "));
+	strcpy(tokens[4], strsplit(NULL, "-"));
+	strcpy(tokens[5], strsplit(NULL, "\n"));
 }
 
 void parse_copy_tokens(char **tokens, char **prev_tokens)
@@ -58,9 +58,7 @@ void parse_copy_tokens(char **tokens, char **prev_tokens)
 
 	for (i = 0; i < 6; ++i) {
 		if (strchr(tokens[i], '~') != NULL) {
-			/* If this is the case, we don't have room to copy the token.
-			 * Instead, have it point to the previous */
-			tokens[i] = prev_tokens[i];
+			strcpy(tokens[i], prev_tokens[i]);
 		}
 	}
 }

@@ -20,23 +20,38 @@ void clean_up(List *course_list, Schedule *sched)
 
 	for (i = 0; i < course_list->num_courses; ++i) {
 		cur_course = course_list->courses[i];
-		if (cur_course == NULL) { continue; }
-		cur_entries = cur_course->entries;
-		for (j = 0; j < cur_course->num_entries; ++j) {
-			cur_entry = cur_entries[j];
-			if (cur_entry == NULL) { continue; }
-			cur_classes = cur_entry->classes;
-			for (k = 0; k < cur_entry->num_classes; ++k) {
-				cur_class = cur_classes[k];
-				if (cur_class == NULL) { continue; }
-				free(cur_class->start);
-				free(cur_class->end);
-				free(cur_class);
+
+		if (!is_empty(cur_course)) {
+			cur_entries = cur_course->entries;
+			for (j = 0; j < MAX_ENTRIES; ++j) {
+				cur_entry = cur_entries[j];
+
+				if (!is_empty(cur_entry)) {
+					cur_classes = cur_entry->classes;
+					for (k = 0; k < MAX_CLASSES; ++k) {
+						cur_class = cur_classes[k];
+
+						if (!is_empty(cur_class)) {
+							free(cur_class->days);
+							free(cur_class->start);
+							free(cur_class->end);
+						}
+
+						free(cur_class);
+					}
+					free(cur_entry->dept);
+					free(cur_entry->classes);
+				}
+
+				free(cur_entry);
 			}
-			free(cur_entry);
+			free(cur_course->dept);
+			free(cur_course->entries);
 		}
+
 		free(cur_course);
 	}
+	free(course_list->courses);
 	free(course_list);
 
 	free(sched->entries);
@@ -76,14 +91,15 @@ int main(int argc, char *argv[])
 	fgets(buffer, 255, input_location);
 	j = atoi(buffer);
 	if (j < 0) {
-		puts("You can't have negative course_list");
+		puts("You can't have negative courses!");
 		return -1;
 	}
-	course_list = (List*) malloc(sizeof(List));
+	course_list = (List *) malloc(sizeof(List));
 	course_list->num_courses = (unsigned int) j;
-	course_list->courses = (Course**) malloc(sizeof(Course*) * course_list->num_courses);
+	course_list->courses = (Course **) malloc(sizeof(Course *) * course_list->num_courses);
 	for (i = 0; i < course_list->num_courses; ++i) {
-		course_list->courses[i] = (Course*) malloc(sizeof(Course));
+		course_list->courses[i] = (Course *) malloc(sizeof(Course));
+		course_list->courses[i]->empty = 1;
 	}
 
 	safe_fputs("Enter a class in this format:\n", output_location);
@@ -91,11 +107,14 @@ int main(int argc, char *argv[])
 	safe_fputs("You can copy a section from the one above by using '~'\n", output_location);
 	safe_fputs("Type 'done' when finished.\n", output_location);
 
-	line_tokens = (char**) malloc(sizeof(char*) * NUM_TOKENS);
-	previous_tokens = (char**) malloc(sizeof(char*) * NUM_TOKENS);
+	line_tokens = (char **) malloc(sizeof(char *) * NUM_TOKENS);
+	previous_tokens = (char **) malloc(sizeof(char *) * NUM_TOKENS);
+	for (i = 0; i < NUM_TOKENS; ++i) {
+		line_tokens[i] = (char *) malloc(sizeof(char) * TOKEN_LENGTHS[i]);
+		previous_tokens[i] = (char *) malloc(sizeof(char) * TOKEN_LENGTHS[i]);
+	}
 
 	/* Get and parse input */
-	j = 0;
 	while (1) {
 		fgets(buffer, 255, input_location);
 
@@ -123,20 +142,23 @@ int main(int argc, char *argv[])
 
 		/* Update the previous tokens for next loop */
 		for(i = 0; i < NUM_TOKENS; ++i) {
-			if (j == 0) {
-				previous_tokens[i] = (char*) malloc(sizeof(line_tokens[i]));
-			}
 			strcpy(previous_tokens[i], line_tokens[i]);
 		}
-		j = 1;
 	}
 	if (argc == 2) { fclose(input_location); }
+	for (i = 0; i < NUM_TOKENS; ++i) {
+		free(line_tokens[i]);
+		free(previous_tokens[i]);
+	}
+	free(line_tokens);
+	free(previous_tokens);
 
 	/* Generate some schedules */
-	cur_schedule = (Schedule*) malloc(sizeof(Schedule));
-	cur_schedule->entries = (Entry**) malloc(sizeof(Entry*) * course_list->num_courses);
+	puts("Generating schedules...");
+	cur_schedule = (Schedule *) malloc(sizeof(Schedule));
+	cur_schedule->entries = (Entry **) malloc(sizeof(Entry *) * course_list->num_courses);
 
-	while (get_next_schedule(cur_schedule, course_list) != NULL) {
+	while (get_next_schedule(cur_schedule, course_list)) {
 		if (schedule_conflict(cur_schedule) == 0) {
 			print_schedule(cur_schedule);
 		}

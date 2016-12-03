@@ -87,5 +87,6 @@ int main()
 	assert(strcmp(tokens[5], "09:00") == 0);
 	update_tokens(tokens, prev_tokens);
 
+	puts("Tests of input.c completed successfully.");
 	return 0;
 }

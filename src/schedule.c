@@ -72,7 +72,7 @@ int schedule_conflict(Schedule *sched)
 	return 0;
 }
 
-void* get_next_schedule(Schedule *sched, List *course_list)
+int get_next_schedule(Schedule *sched, List *course_list)
 {
 	Course **courses = course_list->courses;
 	Entry **schedule = sched->entries;
@@ -85,9 +85,10 @@ void* get_next_schedule(Schedule *sched, List *course_list)
 	if (first_time) {
 		for (i = 0; i < course_list->num_courses; ++i) {
 			schedule[i] = courses[i]->entries[0];
+			courses[i]->selected_entry = 0;
 		}
 		first_time = 0;
-		return (void*) 0x1;
+		return 1;
 	}
 
 	for (i = 0; i < course_list->num_courses; ++i) {
@@ -100,14 +101,14 @@ void* get_next_schedule(Schedule *sched, List *course_list)
 			if (i == course_list->num_courses - 1) {
 				/* If this is the last course and we're at the last entry and
 				 * trying to increment again, we've reached the end. Return */
-				return NULL;
+				return 0;
 			}
 			courses[i]->selected_entry = 0;
 			increment_flag = 1;	
 		}
 		schedule[i] = courses[i]->entries[courses[i]->selected_entry];
 	}
-	return (void*) 0x1;
+	return 1;
 }
 
 void print_schedule(Schedule *sched)
