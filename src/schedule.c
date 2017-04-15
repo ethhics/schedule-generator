@@ -9,23 +9,15 @@
 
 #include "defs.h"
 
-Class* get_class_for_day(Entry *e, char day)
-{
-	Class **classes = e->classes;
-	unsigned int i;
-	for (i = 0; i < e->num_classes; ++i) {
-		if (is_empty(classes[i])) { continue; }
-		if (strchr(classes[i]->days, day) != NULL) {
-			return classes[i];
-		}
-	}
-	return NULL;
-}
-
-int class_times_overlap(Class *c1, Class *c2)
+int classes_overlap(Class *c1, Class *c2, char day)
 {
 	Time *s1, *e1, *s2, *e2;
 	
+	if (is_empty(c1) || is_empty(c2)) { return 0; }
+	if (strchr(c1->days, day) == NULL || strchr(c2->days, day) == NULL) {
+		return 0;
+	}
+
 	s1 = c1->start;
 	e1 = c1->end;
 	s2 = c2->start;
@@ -45,28 +37,47 @@ int class_times_overlap(Class *c1, Class *c2)
 	return 1;
 }
 
-int schedule_conflict(Schedule *sched)
+int entries_overlap(Entry *e1, Entry *e2, char day)
+{
+	Class **classes1 = e1->classes;
+	Class **classes2 = e2->classes;
+	unsigned int i, j;
+
+	if (is_empty(e1) || is_empty(e2)) { return 0; }
+	for (i = 0; i < e1->num_classes; ++i) {
+		for (j = 0; j < e2->num_classes; ++j) {
+			if (classes_overlap(classes1[i], classes2[j], day)) {
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+
+int schedule_overlap(Schedule *sched, char day)
 {
 	Entry **schedule = sched->entries;
-	unsigned int i, j, k;
+	unsigned int i, j;
+	for (i = 0; i < sched->num_entries; ++i) {
+		for (j = i + 1; j < sched->num_entries; ++j) {
+			if (entries_overlap(schedule[i], schedule[j], day)) {
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+int schedule_conflict(Schedule *sched)
+{
+	unsigned int i;
 	char days[] = "MTWRF";
 
 	for (i = 0; i < strlen(days); ++i) {
 		/* Iterate over each day */
-		for (j = 0; j < sched->num_entries; ++j) {
-			if (schedule[j] == NULL) { continue; }
-			for (k = j+1; k < sched->num_entries; ++k) {
-				/* Pick 2 entities, get their class for the current day, and
-				 * if the times overlap return 1 (they do conflict) */
-				Class *c1 = get_class_for_day(schedule[j], days[i]);
-				Class *c2 = get_class_for_day(schedule[k], days[i]);
-				if (c1 == NULL || c2 == NULL) {
-					continue;
-				}
-				if (class_times_overlap(c1, c2) == 1) {
-					return 1;
-				}
-			}
+		if (schedule_overlap(sched, days[i])) {
+			return 1;
 		}
 	}
 	return 0;
@@ -96,11 +107,14 @@ int get_next_schedule(Schedule *sched, List *course_list)
 			courses[i]->selected_entry++;
 			increment_flag = 0;
 		}
-		/* If current course has reached last entry, reset and increment next */
+		/* If current course has reached last entry,
+		 * reset and increment next */
 		if (courses[i]->selected_entry == courses[i]->num_entries) {
 			if (i == course_list->num_courses - 1) {
-				/* If this is the last course and we're at the last entry and
-				 * trying to increment again, we've reached the end. Return */
+				/* If this is the last course
+				 * and we're at the last entry and
+				 * trying to increment again,
+				 * we've reached the end. Return */
 				return 0;
 			}
 			courses[i]->selected_entry = 0;
