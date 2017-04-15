@@ -25,7 +25,8 @@
 #define START_LEN 7
 #define END_LEN 7
 
-static const long unsigned int TOKEN_LENGTHS[] = { ID_LEN, DEPT_LEN, COURSE_LEN, DAYS_LEN, START_LEN, END_LEN };
+static const long unsigned int TOKEN_LENGTHS[] = { ID_LEN, DEPT_LEN,
+	COURSE_LEN, DAYS_LEN, START_LEN, END_LEN };
 
 typedef struct {
 	unsigned int H, M;
@@ -71,19 +72,19 @@ typedef struct {
 	Entry **entries;
 } Schedule;
 
-/* input.c */
+/* input.c global functions */
 char *strsplit(char *str, char *token);
 void split_input_line(char **tokens, char *buffer);
 void parse_copy_tokens(char **tokens, char **prev_tokens);
 
-/* parse.c */
+/* parse.c global functions */
 int is_empty(void *thing);
 void parse_time(Time *t, char *str);
 Course *get_course(List *course_list, char **tokens);
 Entry *get_entry(Course *course, char **tokens);
 Class *get_class(Entry *entry, char **tokens);
 
-/* schedule.c */
+/* schedule.c global functions */
 int get_next_schedule(Schedule *schedule, List *course_list);
 int schedule_conflict(Schedule *schedule);
 void print_schedule(Schedule *schedule);

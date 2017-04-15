@@ -9,6 +9,17 @@
 
 #include "defs.h"
 
+/***********************************************
+ * Name:
+ * 	strsplit
+ * Description:
+ * 	A rewrite of strok(). Doesn't output zero-length tokens when the
+ * 	delimeter is repeated
+ * Inputs:
+ * 	str, token
+ * Outputs:
+ * 	starting location of next token (char*)
+ ***********************************************/
 char* strsplit(char *str, char *token)
 {
 	/* This is basically a rewrite of strtok() so that it doesn't suck */
@@ -42,6 +53,16 @@ char* strsplit(char *str, char *token)
 	return initial;
 }
 
+/***********************************************
+ * Name:
+ * 	split_input_line
+ * Description:
+ * 	Splits a line of input into an array of tokens
+ * Inputs:
+ * 	tokens, buffer
+ * Outputs:
+ * 	None
+ ***********************************************/
 void split_input_line(char **tokens, char *buffer)
 {
 	strcpy(tokens[0], strsplit(buffer, " "));
@@ -52,6 +73,16 @@ void split_input_line(char **tokens, char *buffer)
 	strcpy(tokens[5], strsplit(NULL, "\n"));
 }
 
+/***********************************************
+ * Name:
+ * 	parse_copy_tokens
+ * Description:
+ * 	Replaces copy tokens with the previous token for that slot.
+ * Inputs:
+ * 	tokens, prev_tokens
+ * Outputs:
+ * 	None
+ ***********************************************/
 void parse_copy_tokens(char **tokens, char **prev_tokens)
 {
 	int i;

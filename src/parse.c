@@ -11,18 +11,40 @@
 
 /* TOKENS STRUCTURE:
  * ID DEPT COURSE DAYS START-END
- * [0] [1]   [2]  [3]  [4]   [5] */
+ * [0] [1]   [2]   [3]  [4]  [5] */
 
+/***********************************************
+ * Name:
+ * 	is_empty
+ * Description:
+ * 	Determines if a thing is empty. Thing can be a course, entry, or class.
+ * 	The behavior is undefined for things that aren't one of these structs
+ * Inputs:
+ * 	thing
+ * Outputs:
+ * 	true if thing is empty (int)
+ ***********************************************/
 int is_empty(void *thing)
 {
-	/* Thing can be a course, entry, or class. Because all of these have an
-	 * integer called empty in their structure, all at the same offset of 0, we
-	 * can just cast the pointer to int* and dereference. The behavior is
-	 * undefined for things that aren't courses, entries, or classes. */
+	/*
+	 * Because course, entry, and class all have 'int empty' at an offset
+	 * of 0 in their structs, we can just cast void* to int* and
+	 * dereference.
+	 */
 	int *int_ptr = (int*) thing;
 	return *int_ptr;
 }
 
+/***********************************************
+ * Name:
+ * 	parse_time
+ * Description:
+ * 	Parses a string into a time object
+ * Inputs:
+ * 	t, str
+ * Outputs:
+ * 	None
+ ***********************************************/
 void parse_time(Time *t, char *str)
 {
 	int H = atoi(strsplit(str, ":"));
@@ -35,6 +57,16 @@ void parse_time(Time *t, char *str)
 	t->M = (unsigned int) M;
 }
 
+/***********************************************
+ * Name:
+ * 	get_course
+ * Description:
+ * 	fetches a course in the course list, or makes one if it doesn't exist
+ * Inputs:
+ * 	course_list, tokens
+ * Outputs:
+ * 	the fetched or made course (Course*)
+ ***********************************************/
 Course* get_course(List *course_list, char **tokens)
 {
 	Course **courses = course_list->courses;
@@ -58,7 +90,7 @@ Course* get_course(List *course_list, char **tokens)
 		}
 	}
 
-	/* The course isn't in our list yet, so make it, add it, and return it */
+	/* The course isn't in our list yet, so make, add, and return it */
 	cur_course = courses[first_empty];
 	cur_course->dept = (char*) malloc(sizeof(char) * DEPT_LEN);
 	strcpy(cur_course->dept, dept);
@@ -75,6 +107,16 @@ Course* get_course(List *course_list, char **tokens)
 	return cur_course;
 }
 
+/***********************************************
+ * Name:
+ * 	get_entry
+ * Description:
+ * 	fetches an entry in the course, or makes one if it doesn't exist
+ * Inputs:
+ * 	course, tokens
+ * Outputs:
+ * 	the fetched or made entry (Entry*)
+ ***********************************************/
 Entry* get_entry(Course *course, char **tokens)
 {
 	Entry **entries = course->entries;
@@ -99,7 +141,7 @@ Entry* get_entry(Course *course, char **tokens)
 		first_empty = 0;
 	}
 
-	/* The entry isn't in our list yet, so make it, add it, and return it */
+	/* The entry isn't in our list yet, so make, add, and return it */
 	cur_entry = entries[first_empty];
 	cur_entry->id = id;
 	cur_entry->dept = (char*) malloc(sizeof(char) * DEPT_LEN);
@@ -119,6 +161,16 @@ Entry* get_entry(Course *course, char **tokens)
 	return cur_entry;
 }
 
+/***********************************************
+ * Name:
+ * 	get_class
+ * Description:
+ * 	Fetches a class in the entry, or makes one if it doesn't exist
+ * Inputs:
+ * 	entry, tokens
+ * Outputs:
+ * 	the fetched or made class (Class*)
+ ***********************************************/
 Class* get_class(Entry *entry, char **tokens)
 {
 	Class **classes = entry->classes;
@@ -161,7 +213,7 @@ Class* get_class(Entry *entry, char **tokens)
 		first_empty = 0;
 	}
 
-	/* The entry isn't in our list yet, so make it, add it, and return it */
+	/* The entry isn't in our list yet, so make, add, and return it */
 	cur_class = classes[first_empty];
 	cur_class->days = (char*) malloc(sizeof(char) * 6);
 	strcpy(cur_class->days, days);

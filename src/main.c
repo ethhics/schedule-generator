@@ -9,6 +9,16 @@
 
 #include "defs.h"
 
+/***********************************************
+ * Name:
+ * 	clean_up
+ * Description:
+ * 	Frees all objects in the course list and the schedule
+ * Inputs:
+ * 	course_list, sched
+ * Outputs:
+ * 	None
+ ***********************************************/
 void clean_up(List *course_list, Schedule *sched)
 {
 	Course *cur_course;
@@ -58,6 +68,16 @@ void clean_up(List *course_list, Schedule *sched)
 	free(sched);
 }
 
+/***********************************************
+ * Name:
+ * 	safe_fputs
+ * Description:
+ * 	Sanitizer for fputs, does not allow f to be null
+ * Inputs:
+ * 	str, f
+ * Outputs:
+ * 	None
+ ***********************************************/
 void safe_fputs(char *str, FILE *f)
 {
 	if (f != NULL) {
@@ -65,6 +85,16 @@ void safe_fputs(char *str, FILE *f)
 	}
 }
 
+/***********************************************
+ * Name:
+ * 	main
+ * Description:
+ * 	Controls program flow
+ * Inputs:
+ * 	arc, argv
+ * Outputs:
+ * 	return state (int)
+ ***********************************************/
 int main(int argc, char *argv[])
 {
 	char buffer[256];
