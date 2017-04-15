@@ -1,7 +1,7 @@
 /*
  * parse.c - Parses formatted user input into usable structs and arrays
  *
- * MIT License - Copyright (c) 2016 Zach Scott
+ * MIT License - Copyright (c) 2017 Zach Scott
  *
  * This software is subject to the terms and conditions defined in the file
  * 'LICENSE', which should be included with this package.

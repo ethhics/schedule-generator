@@ -1,7 +1,7 @@
 /*
  * defs.h - Defines all functions, structs, and constants used in the software
  *
- * MIT License - Copyright (c) 2016 Zach Scott
+ * MIT License - Copyright (c) 2017 Zach Scott
  *
  * This software is subject to the terms and conditions defined in the file
  * 'LICENSE', which should be included with this package.
