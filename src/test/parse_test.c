@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include <assert.h>
 #include <string.h>
 
@@ -51,7 +50,7 @@ void clean_up(List *course_list)
 	free(course_list);
 }
 
-int main()
+int parse_test()
 {
 	char goodt1[] = "12:34";
 	char goodt2[] = "23:45";
@@ -119,6 +118,5 @@ int main()
 
 	clean_up(l);
 
-	puts("Tests of parse.c completed successfully.");
-	return 0;
+	return 1;
 }

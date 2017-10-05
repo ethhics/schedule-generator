@@ -47,8 +47,8 @@ int is_empty(void *thing)
  ***********************************************/
 void parse_time(Time *t, char *str)
 {
-	int H = atoi(strsplit(str, ":"));
-	int M = atoi(strsplit(NULL, ""));
+	int H = strtol(strsplit(str, ":"), NULL, 0);
+	int M = strtol(strsplit(NULL, ""), NULL, 0);
 
 	if (H < 0) { H = 0; }
 	if (M < 0) { M = 0; }
@@ -67,14 +67,14 @@ void parse_time(Time *t, char *str)
  * Outputs:
  * 	the fetched or made course (Course*)
  ***********************************************/
-Course* get_course(List *course_list, char **tokens)
+Course *get_course(List *course_list, char **tokens)
 {
 	Course **courses = course_list->courses;
 	Course *cur_course;
 	unsigned int i;
 	int first_empty = -1;
 	char *dept = tokens[1];
-	int course = atoi(tokens[2]);
+	int course = strtol(tokens[2], NULL, 0);
 
 	for (i = 0; i < course_list->num_courses; ++i) {
 		cur_course = courses[i];
@@ -117,13 +117,13 @@ Course* get_course(List *course_list, char **tokens)
  * Outputs:
  * 	the fetched or made entry (Entry*)
  ***********************************************/
-Entry* get_entry(Course *course, char **tokens)
+Entry *get_entry(Course *course, char **tokens)
 {
 	Entry **entries = course->entries;
    	Entry *cur_entry;
 	unsigned int i;
 	int first_empty = -1;
-	int id = atoi(tokens[0]);
+	int id = strtol(tokens[0], NULL, 0);
 
 	if (course->num_entries != 0) {
 		for (i = 0; i < MAX_ENTRIES; ++i) {
@@ -171,19 +171,19 @@ Entry* get_entry(Course *course, char **tokens)
  * Outputs:
  * 	the fetched or made class (Class*)
  ***********************************************/
-Class* get_class(Entry *entry, char **tokens)
+Class *get_class(Entry *entry, char **tokens)
 {
 	Class **classes = entry->classes;
    	Class *cur_class;
 	unsigned int i;
 	int first_empty = -1;
 	char *days = tokens[3];
-	char *start_str = (char*) malloc(sizeof(tokens[4]));
-	char *end_str = (char*) malloc(sizeof(tokens[5]));
+	char *start_str = (char*) malloc(sizeof(char) * (strlen(tokens[4])+1));
+	char *end_str = (char*) malloc(sizeof(char) * (strlen(tokens[5])+1));
 	Time *start, *end;
 	start = (Time*) malloc(sizeof(Time));
 	end = (Time*) malloc(sizeof(Time));
-	
+
 	strcpy(start_str, tokens[4]);
 	strcpy(end_str, tokens[5]);
 	parse_time(start, start_str);

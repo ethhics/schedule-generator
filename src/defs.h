@@ -73,6 +73,7 @@ typedef struct {
 } Schedule;
 
 /* input.c global functions */
+void initialize_tokens(char **tokens);
 char *strsplit(char *str, char *token);
 void split_input_line(char **tokens, char *buffer);
 void parse_copy_tokens(char **tokens, char **prev_tokens);

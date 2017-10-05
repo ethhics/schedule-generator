@@ -11,6 +11,24 @@
 
 /***********************************************
  * Name:
+ * 	initialize_tokens
+ * Description:
+ * 	Initializes the tokens in token array
+ * Inputs:
+ * 	tokens
+ * Outputs:
+ * 	None
+ ***********************************************/
+void initialize_tokens(char **tokens)
+{
+	int i;
+	for (i = 0; i < NUM_TOKENS; ++i) {
+		tokens[i] = (char *) malloc(sizeof(char) * TOKEN_LENGTHS[i]);
+	}
+}
+
+/***********************************************
+ * Name:
  * 	strsplit
  * Description:
  * 	A rewrite of strok(). Doesn't output zero-length tokens when the
@@ -20,7 +38,7 @@
  * Outputs:
  * 	starting location of next token (char*)
  ***********************************************/
-char* strsplit(char *str, char *token)
+char *strsplit(char *str, char *token) // NOLINT
 {
 	/* This is basically a rewrite of strtok() so that it doesn't suck */
 	static char *start;

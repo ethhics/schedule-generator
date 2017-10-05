@@ -85,6 +85,7 @@ void safe_fputs(char *str, FILE *f)
 	}
 }
 
+
 /***********************************************
  * Name:
  * 	main
@@ -119,7 +120,7 @@ int main(int argc, char *argv[])
 	}
 	safe_fputs("How many courses are you taking? ", output_location);
 	fgets(buffer, 255, input_location);
-	j = atoi(buffer);
+	j = (int) strtol(buffer, NULL, 0);
 	if (j < 0) {
 		puts("You can't have negative courses!");
 		return -1;
@@ -139,10 +140,8 @@ int main(int argc, char *argv[])
 
 	line_tokens = (char **) malloc(sizeof(char *) * NUM_TOKENS);
 	previous_tokens = (char **) malloc(sizeof(char *) * NUM_TOKENS);
-	for (i = 0; i < NUM_TOKENS; ++i) {
-		line_tokens[i] = (char *) malloc(sizeof(char) * TOKEN_LENGTHS[i]);
-		previous_tokens[i] = (char *) malloc(sizeof(char) * TOKEN_LENGTHS[i]);
-	}
+	initialize_tokens(line_tokens);
+	initialize_tokens(previous_tokens);
 
 	/* Get and parse input */
 	while (1) {

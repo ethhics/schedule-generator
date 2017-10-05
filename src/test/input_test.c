@@ -1,5 +1,3 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include <assert.h>
 #include <string.h>
 
@@ -9,11 +7,11 @@ void update_tokens(char **tok, char **prev)
 {
 	int i;
 	for (i = 0; i < 6; ++i) {
-		prev[i] = tok[i];
+		strcpy(prev[i], tok[i]);
 	}
 }
 
-int main()
+int input_test()
 {
 	char good1[] = "12345 MATH 111 MWF 08:00-08:50\n";
 	char copy1[] = "  ~     ~   ~  TR  15:40-16:00\n";
@@ -24,6 +22,9 @@ int main()
 
 	char *tokens[6];
 	char *prev_tokens[6];
+
+	initialize_tokens(tokens);
+	initialize_tokens(prev_tokens);
 
 	/* good1 */
 	split_input_line(tokens, good1);
@@ -87,6 +88,5 @@ int main()
 	assert(strcmp(tokens[5], "09:00") == 0);
 	update_tokens(tokens, prev_tokens);
 
-	puts("Tests of input.c completed successfully.");
-	return 0;
+	return 1;
 }
