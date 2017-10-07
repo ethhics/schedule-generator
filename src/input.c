@@ -38,7 +38,7 @@ void initialize_tokens(char **tokens)
  * Outputs:
  * 	starting location of next token (char*)
  ***********************************************/
-char *strsplit(const char *str, const char *token)
+char *strsplit(const char *str, const char token)
 {
 	/* This is basically a rewrite of strtok() so that it doesn't suck */
 	static char *start;
@@ -54,15 +54,17 @@ char *strsplit(const char *str, const char *token)
 
 	/* Set initial to ignore leading whitespace */
 	for (initial = start; *initial != '\0'; ++initial) {
-		if (*initial != *token) {
+		if (*initial != token) {
 			break;
 		}
 	}
 
-	first_instance = strchr(initial, *token);
+	first_instance = strchr(initial, token);
+	if (first_instance == NULL)
+		first_instance = initial;
 
 	for (next_char = first_instance; *next_char != '\0'; ++next_char) {
-		if (*next_char != *token) {
+		if (*next_char != token) {
 			/* We've found the first character after the split that isn't
 			 * the same as the delimiter */
 			start = next_char;
@@ -86,12 +88,12 @@ char *strsplit(const char *str, const char *token)
  ***********************************************/
 void split_input_line(char **tokens, char *buffer)
 {
-	strcpy(tokens[0], strsplit(buffer, " "));
-	strcpy(tokens[1], strsplit(NULL, " "));
-	strcpy(tokens[2], strsplit(NULL, " "));
-	strcpy(tokens[3], strsplit(NULL, " "));
-	strcpy(tokens[4], strsplit(NULL, "-"));
-	strcpy(tokens[5], strsplit(NULL, "\n"));
+	strcpy(tokens[0], strsplit(buffer, ' '));
+	strcpy(tokens[1], strsplit(NULL, ' '));
+	strcpy(tokens[2], strsplit(NULL, ' '));
+	strcpy(tokens[3], strsplit(NULL, ' '));
+	strcpy(tokens[4], strsplit(NULL, '-'));
+	strcpy(tokens[5], strsplit(NULL, '\n'));
 }
 
 /***********************************************

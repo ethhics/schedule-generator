@@ -47,8 +47,8 @@ int is_empty(void *thing)
  ***********************************************/
 void parse_time(Time *t, char *str)
 {
-	int H = strtol(strsplit(str, ":"), NULL, 10);
-	int M = strtol(strsplit(NULL, ""), NULL, 10);
+	int H = strtol(strsplit(str, ':'), NULL, 10);
+	int M = strtol(strsplit(NULL, '\0'), NULL, 10);
 
 	if (H < 0) { H = 0; }
 	if (M < 0) { M = 0; }

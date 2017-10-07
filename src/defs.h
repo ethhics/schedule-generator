@@ -74,7 +74,7 @@ typedef struct {
 
 /* input.c global functions */
 void initialize_tokens(char **tokens);
-char *strsplit(const char *str, const char *token);
+char *strsplit(const char *str, char token);
 void split_input_line(char **tokens, char *buffer);
 void parse_copy_tokens(char **tokens, char **prev_tokens);
 

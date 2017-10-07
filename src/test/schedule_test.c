@@ -40,6 +40,7 @@ void test_classes_overlap()
 
 int schedule_test()
 {
+	/* TODO: write all schedule tests */
 	/* test_classes_overlap();
 	test_entries_overlap();
  	test_schedule_overlap();

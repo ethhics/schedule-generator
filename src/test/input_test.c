@@ -23,6 +23,11 @@ int input_test()
 	char *tokens[6];
 	char *prev_tokens[6];
 
+	assert(strcmp(strsplit("abc def", ' '), "abc") == 0);
+	assert(strcmp(strsplit(NULL, ' '), "def") == 0);
+	assert(strcmp(strsplit("abc", 'a'), "bc") == 0);
+	assert(strcmp(strsplit("a", 'a'), "") == 0);
+
 	initialize_tokens(tokens);
 	initialize_tokens(prev_tokens);
 

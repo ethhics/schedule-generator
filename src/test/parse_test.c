@@ -52,6 +52,7 @@ void clean_up(List *course_list)
 
 int parse_test()
 {
+	/* TODO: Add tests for is_empty() */
 	char goodt1[] = "12:34";
 	char goodt2[] = "23:45";
 	char badt1[]  = "24:00";
