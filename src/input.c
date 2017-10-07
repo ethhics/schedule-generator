@@ -48,7 +48,7 @@ char *strsplit(const char *str, const char token)
 
 	/* If NULL is passed then use the current location */
 	if (str != NULL) {
-		start = malloc(sizeof(*start)*(strlen(str)+1));
+		start = malloc(sizeof(*start) * (strlen(str) + 1));
 		strcpy(start, str);
 	}
 

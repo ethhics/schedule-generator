@@ -1,7 +1,9 @@
 #include <stdio.h>
 
 extern int input_test();
+
 extern int parse_test();
+
 extern int schedule_test();
 
 int main()

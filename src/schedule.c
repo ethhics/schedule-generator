@@ -12,7 +12,7 @@
 int classes_overlap(Class *c1, Class *c2, char day)
 {
 	Time *s1, *e1, *s2, *e2;
-	
+
 	if (is_empty(c1) || is_empty(c2)) { return 0; }
 	if (strchr(c1->days, day) == NULL || strchr(c2->days, day) == NULL) {
 		return 0;
@@ -118,7 +118,7 @@ int get_next_schedule(Schedule *sched, List *course_list)
 				return 0;
 			}
 			courses[i]->selected_entry = 0;
-			increment_flag = 1;	
+			increment_flag = 1;
 		}
 		schedule[i] = courses[i]->entries[courses[i]->selected_entry];
 	}
@@ -134,7 +134,8 @@ void print_schedule(Schedule *sched)
 	puts("~~~~~~~POTENTIAL SCHEDULE~~~~~~~");
 	for (i = 0; i < sched->num_entries; ++i) {
 		classes = schedule[i]->classes;
-		printf("%s %d: %d\n", schedule[i]->dept, schedule[i]->course, schedule[i]->id);
+		printf("%s %d: %d\n", schedule[i]->dept, schedule[i]->course,
+		       schedule[i]->id);
 		for (j = 0; j < schedule[i]->num_classes; ++j) {
 			if (classes[j] == NULL) { continue; }
 			printf("\t%-3s %02d:%02d-%02d:%02d\n", classes[j]->days,

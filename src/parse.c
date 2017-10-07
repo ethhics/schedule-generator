@@ -31,7 +31,7 @@ int is_empty(void *thing)
 	 * of 0 in their structs, we can just cast void* to int* and
 	 * dereference.
 	 */
-	int *int_ptr = (int*) thing;
+	int *int_ptr = thing;
 	return *int_ptr;
 }
 
@@ -96,9 +96,11 @@ Course *get_course(List *course_list, char **tokens)
 	strcpy(cur_course->dept, dept);
 	cur_course->course = course;
 
-	cur_course->entries = malloc(sizeof(*cur_course->entries) * MAX_ENTRIES);
+	cur_course->entries = malloc(
+		sizeof(*cur_course->entries) * MAX_ENTRIES);
 	for (i = 0; i < MAX_ENTRIES; ++i) {
-		cur_course->entries[i] = malloc(sizeof(*cur_course->entries[i]));
+		cur_course->entries[i] = malloc(
+			sizeof(*cur_course->entries[i]));
 		cur_course->entries[i]->empty = 1;
 	}
 	cur_course->num_entries = 0;
@@ -120,7 +122,7 @@ Course *get_course(List *course_list, char **tokens)
 Entry *get_entry(Course *course, char **tokens)
 {
 	Entry **entries = course->entries;
-   	Entry *cur_entry;
+	Entry *cur_entry;
 	unsigned int i;
 	int first_empty = -1;
 	int id = strtol(tokens[0], NULL, 10);
@@ -129,7 +131,9 @@ Entry *get_entry(Course *course, char **tokens)
 		for (i = 0; i < MAX_ENTRIES; ++i) {
 			cur_entry = entries[i];
 			if (is_empty(cur_entry)) {
-				if (first_empty == -1) { first_empty = (int) i; }
+				if (first_empty == -1) {
+					first_empty = (int) i;
+				}
 				continue;
 			}
 			if (cur_entry->id == id) {
@@ -174,12 +178,12 @@ Entry *get_entry(Course *course, char **tokens)
 Class *get_class(Entry *entry, char **tokens)
 {
 	Class **classes = entry->classes;
-   	Class *cur_class;
+	Class *cur_class;
 	unsigned int i;
 	int first_empty = -1;
 	char *days = tokens[3];
-	char *start_str = malloc(sizeof(*start_str) * (strlen(tokens[4])+1));
-	char *end_str = malloc(sizeof(*end_str) * (strlen(tokens[5])+1));
+	char *start_str = malloc(sizeof(*start_str) * (strlen(tokens[4]) + 1));
+	char *end_str = malloc(sizeof(*end_str) * (strlen(tokens[5]) + 1));
 	Time *start, *end;
 	start = malloc(sizeof(*start));
 	end = malloc(sizeof(*end));
@@ -192,15 +196,17 @@ Class *get_class(Entry *entry, char **tokens)
 	if (entry->num_classes != 0) {
 		for (i = 0; i < MAX_CLASSES; ++i) {
 			cur_class = classes[i];
-			if (is_empty(cur_class)) { 
-				if (first_empty == -1) { first_empty = (int) i; }
+			if (is_empty(cur_class)) {
+				if (first_empty == -1) {
+					first_empty = (int) i;
+				}
 				continue;
 			}
 			if (strcmp(cur_class->days, days) == 0) {
 				if (cur_class->start->H == start->H &&
-					cur_class->start->M == start->M) {
+				    cur_class->start->M == start->M) {
 					if (cur_class->end->H == end->H &&
-						cur_class->end->M == end->M) {
+					    cur_class->end->M == end->M) {
 						/* We already have this class! Though we shouldn't... */
 						free(start_str);
 						free(end_str);
@@ -222,7 +228,7 @@ Class *get_class(Entry *entry, char **tokens)
 	cur_class->empty = 0;
 
 	entry->num_classes++;
-	
+
 	free(start_str);
 	free(end_str);
 

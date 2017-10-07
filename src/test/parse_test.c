@@ -55,8 +55,8 @@ int parse_test()
 	/* TODO: Add tests for is_empty() */
 	char goodt1[] = "12:34";
 	char goodt2[] = "23:45";
-	char badt1[]  = "24:00";
-	char badt2[]  = "14:60";
+	char badt1[] = "24:00";
+	char badt2[] = "14:60";
 
 	List *l = malloc(sizeof(*l));
 	Course *c;
@@ -91,7 +91,7 @@ int parse_test()
 	parse_time(t, badt1);
 	assert(t->H == 24);
 	assert(t->M == 0);
-	
+
 	parse_time(t, badt2);
 	assert(t->H == 14);
 	assert(t->M == 60);
@@ -106,7 +106,7 @@ int parse_test()
 	c = get_course(l, tokens);
 	assert(strcmp(c->dept, "MATH") == 0);
 	assert(c->course == 111);
-	e  = get_entry(c, tokens);
+	e = get_entry(c, tokens);
 	assert(e->id == 11111);
 	assert(strcmp(e->dept, "MATH") == 0);
 	assert(e->course == 111);

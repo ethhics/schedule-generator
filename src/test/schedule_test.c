@@ -8,12 +8,13 @@ extern int classes_overlap(Class *c1, Class *c2, char day);
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+
 void test_classes_overlap()
 {
 	Class *c1 = malloc(sizeof(*c1));
 	Class *c2 = malloc(sizeof(*c2));
 	Class **cl = malloc(sizeof(*cl) * 2);
-	
+
 	c1->days = malloc(sizeof(*c1->days) * DAYS_LEN);
 	c1->empty = 0;
 	c2->days = malloc(sizeof(*c2->days) * DAYS_LEN);
@@ -23,7 +24,7 @@ void test_classes_overlap()
 
 	cl[0] = c1;
 	cl[1] = c2;
-	
+
 	assert(classes_overlap(c1, c2, 'M') == 0);
 	assert(classes_overlap(c1, c2, 'T') == 0);
 	assert(classes_overlap(c1, c2, 'W') == 0);
@@ -36,6 +37,7 @@ void test_classes_overlap()
 	free(c2);
 	free(cl);
 }
+
 #pragma clang diagnostic pop
 
 int schedule_test()

@@ -127,15 +127,18 @@ int main(int argc, char *argv[])
 	}
 	course_list = malloc(sizeof(*course_list));
 	course_list->num_courses = (unsigned int) j;
-	course_list->courses = malloc(sizeof(*course_list->courses) * course_list->num_courses);
+	course_list->courses = malloc(
+		sizeof(*course_list->courses) * course_list->num_courses);
 	for (i = 0; i < course_list->num_courses; ++i) {
-		course_list->courses[i] = malloc(sizeof(*course_list->courses[i]));
+		course_list->courses[i] = malloc(
+			sizeof(*course_list->courses[i]));
 		course_list->courses[i]->empty = 1;
 	}
 
 	safe_fputs("Enter a class in this format:\n", output_location);
 	safe_fputs("00000 ABCD 123 MWF 08:00-08:50\n", output_location);
-	safe_fputs("You can copy a section from the one above by using '~'\n", output_location);
+	safe_fputs("You can copy a section from the one above by using '~'\n",
+		   output_location);
 	safe_fputs("Type 'done' when finished.\n", output_location);
 
 	line_tokens = malloc(sizeof(*line_tokens) * NUM_TOKENS);
@@ -170,7 +173,7 @@ int main(int argc, char *argv[])
 		}
 
 		/* Update the previous tokens for next loop */
-		for(i = 0; i < NUM_TOKENS; ++i) {
+		for (i = 0; i < NUM_TOKENS; ++i) {
 			strcpy(previous_tokens[i], line_tokens[i]);
 		}
 	}
@@ -185,7 +188,8 @@ int main(int argc, char *argv[])
 	/* Generate some schedules */
 	puts("Generating schedules...");
 	cur_schedule = malloc(sizeof(*cur_schedule));
-	cur_schedule->entries = malloc(sizeof(*cur_schedule->entries) * course_list->num_courses);
+	cur_schedule->entries = malloc(
+		sizeof(*cur_schedule->entries) * course_list->num_courses);
 
 	while (get_next_schedule(cur_schedule, course_list)) {
 		if (schedule_conflict(cur_schedule) == 0) {
