@@ -23,7 +23,7 @@ void initialize_tokens(char **tokens)
 {
 	int i;
 	for (i = 0; i < NUM_TOKENS; ++i) {
-		tokens[i] = (char *) malloc(sizeof(char) * TOKEN_LENGTHS[i]);
+		tokens[i] = malloc(sizeof(char) * TOKEN_LENGTHS[i]);
 	}
 }
 
@@ -38,7 +38,7 @@ void initialize_tokens(char **tokens)
  * Outputs:
  * 	starting location of next token (char*)
  ***********************************************/
-char *strsplit(char *str, char *token) // NOLINT
+char *strsplit(const char *str, const char *token)
 {
 	/* This is basically a rewrite of strtok() so that it doesn't suck */
 	static char *start;
@@ -47,7 +47,10 @@ char *strsplit(char *str, char *token) // NOLINT
 	char *initial;
 
 	/* If NULL is passed then use the current location */
-	if (str != NULL) start = str;
+	if (str != NULL) {
+		start = malloc(sizeof(char)*(strlen(str)+1));
+		strcpy(start, str);
+	}
 
 	/* Set initial to ignore leading whitespace */
 	for (initial = start; *initial != '\0'; ++initial) {

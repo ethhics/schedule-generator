@@ -47,8 +47,8 @@ int is_empty(void *thing)
  ***********************************************/
 void parse_time(Time *t, char *str)
 {
-	int H = strtol(strsplit(str, ":"), NULL, 0);
-	int M = strtol(strsplit(NULL, ""), NULL, 0);
+	int H = strtol(strsplit(str, ":"), NULL, 10);
+	int M = strtol(strsplit(NULL, ""), NULL, 10);
 
 	if (H < 0) { H = 0; }
 	if (M < 0) { M = 0; }
@@ -74,7 +74,7 @@ Course *get_course(List *course_list, char **tokens)
 	unsigned int i;
 	int first_empty = -1;
 	char *dept = tokens[1];
-	int course = strtol(tokens[2], NULL, 0);
+	int course = strtol(tokens[2], NULL, 10);
 
 	for (i = 0; i < course_list->num_courses; ++i) {
 		cur_course = courses[i];
@@ -92,13 +92,13 @@ Course *get_course(List *course_list, char **tokens)
 
 	/* The course isn't in our list yet, so make, add, and return it */
 	cur_course = courses[first_empty];
-	cur_course->dept = (char*) malloc(sizeof(char) * DEPT_LEN);
+	cur_course->dept = malloc(sizeof(char) * DEPT_LEN);
 	strcpy(cur_course->dept, dept);
 	cur_course->course = course;
 
-	cur_course->entries = (Entry**) malloc(sizeof(Entry*) * MAX_ENTRIES);
+	cur_course->entries = malloc(sizeof(Entry*) * MAX_ENTRIES);
 	for (i = 0; i < MAX_ENTRIES; ++i) {
-		cur_course->entries[i] = (Entry*) malloc(sizeof(Entry));
+		cur_course->entries[i] = malloc(sizeof(Entry));
 		cur_course->entries[i]->empty = 1;
 	}
 	cur_course->num_entries = 0;
@@ -123,7 +123,7 @@ Entry *get_entry(Course *course, char **tokens)
    	Entry *cur_entry;
 	unsigned int i;
 	int first_empty = -1;
-	int id = strtol(tokens[0], NULL, 0);
+	int id = strtol(tokens[0], NULL, 10);
 
 	if (course->num_entries != 0) {
 		for (i = 0; i < MAX_ENTRIES; ++i) {
@@ -144,13 +144,13 @@ Entry *get_entry(Course *course, char **tokens)
 	/* The entry isn't in our list yet, so make, add, and return it */
 	cur_entry = entries[first_empty];
 	cur_entry->id = id;
-	cur_entry->dept = (char*) malloc(sizeof(char) * DEPT_LEN);
+	cur_entry->dept = malloc(sizeof(char) * DEPT_LEN);
 	strcpy(cur_entry->dept, course->dept);
 	cur_entry->course = course->course;
 
-	cur_entry->classes = (Class**) malloc(sizeof(Class*) * MAX_CLASSES);
+	cur_entry->classes = malloc(sizeof(Class*) * MAX_CLASSES);
 	for (i = 0; i < MAX_CLASSES; ++i) {
-		cur_entry->classes[i] = (Class*) malloc(sizeof(Class));
+		cur_entry->classes[i] = malloc(sizeof(Class));
 		cur_entry->classes[i]->empty = 1;
 	}
 	cur_entry->num_classes = 0;
@@ -178,11 +178,11 @@ Class *get_class(Entry *entry, char **tokens)
 	unsigned int i;
 	int first_empty = -1;
 	char *days = tokens[3];
-	char *start_str = (char*) malloc(sizeof(char) * (strlen(tokens[4])+1));
-	char *end_str = (char*) malloc(sizeof(char) * (strlen(tokens[5])+1));
+	char *start_str = malloc(sizeof(char) * (strlen(tokens[4])+1));
+	char *end_str = malloc(sizeof(char) * (strlen(tokens[5])+1));
 	Time *start, *end;
-	start = (Time*) malloc(sizeof(Time));
-	end = (Time*) malloc(sizeof(Time));
+	start = malloc(sizeof(Time));
+	end = malloc(sizeof(Time));
 
 	strcpy(start_str, tokens[4]);
 	strcpy(end_str, tokens[5]);
@@ -215,7 +215,7 @@ Class *get_class(Entry *entry, char **tokens)
 
 	/* The entry isn't in our list yet, so make, add, and return it */
 	cur_class = classes[first_empty];
-	cur_class->days = (char*) malloc(sizeof(char) * 6);
+	cur_class->days = malloc(sizeof(char) * 6);
 	strcpy(cur_class->days, days);
 	cur_class->start = start;
 	cur_class->end = end;

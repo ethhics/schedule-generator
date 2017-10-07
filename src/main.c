@@ -120,16 +120,16 @@ int main(int argc, char *argv[])
 	}
 	safe_fputs("How many courses are you taking? ", output_location);
 	fgets(buffer, 255, input_location);
-	j = (int) strtol(buffer, NULL, 0);
+	j = (int) strtol(buffer, NULL, 10);
 	if (j < 0) {
 		puts("You can't have negative courses!");
 		return -1;
 	}
-	course_list = (List *) malloc(sizeof(List));
+	course_list = malloc(sizeof(List));
 	course_list->num_courses = (unsigned int) j;
-	course_list->courses = (Course **) malloc(sizeof(Course *) * course_list->num_courses);
+	course_list->courses = malloc(sizeof(Course *) * course_list->num_courses);
 	for (i = 0; i < course_list->num_courses; ++i) {
-		course_list->courses[i] = (Course *) malloc(sizeof(Course));
+		course_list->courses[i] = malloc(sizeof(Course));
 		course_list->courses[i]->empty = 1;
 	}
 
@@ -138,8 +138,8 @@ int main(int argc, char *argv[])
 	safe_fputs("You can copy a section from the one above by using '~'\n", output_location);
 	safe_fputs("Type 'done' when finished.\n", output_location);
 
-	line_tokens = (char **) malloc(sizeof(char *) * NUM_TOKENS);
-	previous_tokens = (char **) malloc(sizeof(char *) * NUM_TOKENS);
+	line_tokens = malloc(sizeof(char *) * NUM_TOKENS);
+	previous_tokens = malloc(sizeof(char *) * NUM_TOKENS);
 	initialize_tokens(line_tokens);
 	initialize_tokens(previous_tokens);
 
@@ -184,8 +184,8 @@ int main(int argc, char *argv[])
 
 	/* Generate some schedules */
 	puts("Generating schedules...");
-	cur_schedule = (Schedule *) malloc(sizeof(Schedule));
-	cur_schedule->entries = (Entry **) malloc(sizeof(Entry *) * course_list->num_courses);
+	cur_schedule = malloc(sizeof(Schedule));
+	cur_schedule->entries = malloc(sizeof(Entry *) * course_list->num_courses);
 
 	while (get_next_schedule(cur_schedule, course_list)) {
 		if (schedule_conflict(cur_schedule) == 0) {
