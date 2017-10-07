@@ -57,12 +57,12 @@ int parse_test()
 	char badt1[]  = "24:00";
 	char badt2[]  = "14:60";
 
-	List *l = malloc(sizeof(List));
+	List *l = malloc(sizeof(*l));
 	Course *c;
 	Entry *e;
 	Class *cl;
 
-	Time *t = malloc(sizeof(Time));
+	Time *t = malloc(sizeof(*t));
 
 	char tok1[] = "11111";
 	char tok2[] = "MATH";
@@ -98,8 +98,8 @@ int parse_test()
 	free(t);
 
 	l->num_courses = 1;
-	l->courses = malloc(sizeof(Course*));
-	l->courses[0] = malloc(sizeof(Course));
+	l->courses = malloc(sizeof(*l->courses));
+	l->courses[0] = malloc(sizeof(*l->courses[0]));
 	l->courses[0]->empty = 1;
 
 	c = get_course(l, tokens);

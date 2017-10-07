@@ -92,13 +92,13 @@ Course *get_course(List *course_list, char **tokens)
 
 	/* The course isn't in our list yet, so make, add, and return it */
 	cur_course = courses[first_empty];
-	cur_course->dept = malloc(sizeof(char) * DEPT_LEN);
+	cur_course->dept = malloc(sizeof(*cur_course->dept) * DEPT_LEN);
 	strcpy(cur_course->dept, dept);
 	cur_course->course = course;
 
-	cur_course->entries = malloc(sizeof(Entry*) * MAX_ENTRIES);
+	cur_course->entries = malloc(sizeof(*cur_course->entries) * MAX_ENTRIES);
 	for (i = 0; i < MAX_ENTRIES; ++i) {
-		cur_course->entries[i] = malloc(sizeof(Entry));
+		cur_course->entries[i] = malloc(sizeof(*cur_course->entries[i]));
 		cur_course->entries[i]->empty = 1;
 	}
 	cur_course->num_entries = 0;
@@ -144,13 +144,13 @@ Entry *get_entry(Course *course, char **tokens)
 	/* The entry isn't in our list yet, so make, add, and return it */
 	cur_entry = entries[first_empty];
 	cur_entry->id = id;
-	cur_entry->dept = malloc(sizeof(char) * DEPT_LEN);
+	cur_entry->dept = malloc(sizeof(*cur_entry->dept) * DEPT_LEN);
 	strcpy(cur_entry->dept, course->dept);
 	cur_entry->course = course->course;
 
-	cur_entry->classes = malloc(sizeof(Class*) * MAX_CLASSES);
+	cur_entry->classes = malloc(sizeof(*cur_entry->classes) * MAX_CLASSES);
 	for (i = 0; i < MAX_CLASSES; ++i) {
-		cur_entry->classes[i] = malloc(sizeof(Class));
+		cur_entry->classes[i] = malloc(sizeof(*cur_entry->classes[i]));
 		cur_entry->classes[i]->empty = 1;
 	}
 	cur_entry->num_classes = 0;
@@ -178,11 +178,11 @@ Class *get_class(Entry *entry, char **tokens)
 	unsigned int i;
 	int first_empty = -1;
 	char *days = tokens[3];
-	char *start_str = malloc(sizeof(char) * (strlen(tokens[4])+1));
-	char *end_str = malloc(sizeof(char) * (strlen(tokens[5])+1));
+	char *start_str = malloc(sizeof(*start_str) * (strlen(tokens[4])+1));
+	char *end_str = malloc(sizeof(*end_str) * (strlen(tokens[5])+1));
 	Time *start, *end;
-	start = malloc(sizeof(Time));
-	end = malloc(sizeof(Time));
+	start = malloc(sizeof(*start));
+	end = malloc(sizeof(*end));
 
 	strcpy(start_str, tokens[4]);
 	strcpy(end_str, tokens[5]);
@@ -215,7 +215,7 @@ Class *get_class(Entry *entry, char **tokens)
 
 	/* The entry isn't in our list yet, so make, add, and return it */
 	cur_class = classes[first_empty];
-	cur_class->days = malloc(sizeof(char) * 6);
+	cur_class->days = malloc(sizeof(*cur_class->days) * 6);
 	strcpy(cur_class->days, days);
 	cur_class->start = start;
 	cur_class->end = end;

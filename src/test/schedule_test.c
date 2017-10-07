@@ -10,13 +10,13 @@ extern int classes_overlap(Class *c1, Class *c2, char day);
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 void test_classes_overlap()
 {
-	Class *c1 = malloc(sizeof(Class));
-	Class *c2 = malloc(sizeof(Class));
-	Class **cl = malloc(sizeof(Class *) * 2);
+	Class *c1 = malloc(sizeof(*c1));
+	Class *c2 = malloc(sizeof(*c2));
+	Class **cl = malloc(sizeof(*cl) * 2);
 	
-	c1->days = malloc(sizeof(char) * DAYS_LEN);
+	c1->days = malloc(sizeof(*c1->days) * DAYS_LEN);
 	c1->empty = 0;
-	c2->days = malloc(sizeof(char) * DAYS_LEN);
+	c2->days = malloc(sizeof(*c2->days) * DAYS_LEN);
 	c2->empty = 0;
 	strcpy(c1->days, "MWF");
 	strcpy(c2->days, "TR");

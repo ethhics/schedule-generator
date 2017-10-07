@@ -23,7 +23,7 @@ void initialize_tokens(char **tokens)
 {
 	int i;
 	for (i = 0; i < NUM_TOKENS; ++i) {
-		tokens[i] = malloc(sizeof(char) * TOKEN_LENGTHS[i]);
+		tokens[i] = malloc(sizeof(*tokens[i]) * TOKEN_LENGTHS[i]);
 	}
 }
 
@@ -48,7 +48,7 @@ char *strsplit(const char *str, const char *token)
 
 	/* If NULL is passed then use the current location */
 	if (str != NULL) {
-		start = malloc(sizeof(char)*(strlen(str)+1));
+		start = malloc(sizeof(*start)*(strlen(str)+1));
 		strcpy(start, str);
 	}
 
