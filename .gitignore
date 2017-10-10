@@ -32,3 +32,4 @@ bin/*
 # Debug files
 *.dSYM/
 *.su
+.idea/*

@@ -9,13 +9,13 @@
 
 #include "defs.h"
 
-int classes_overlap(Class *c1, Class *c2, char day)
+bool classes_overlap(Class *c1, Class *c2, char day)
 {
 	Time *s1, *e1, *s2, *e2;
-	
+
 	if (is_empty(c1) || is_empty(c2)) { return 0; }
 	if (strchr(c1->days, day) == NULL || strchr(c2->days, day) == NULL) {
-		return 0;
+		return false;
 	}
 
 	s1 = c1->start;
@@ -27,17 +27,17 @@ int classes_overlap(Class *c1, Class *c2, char day)
 		return 0;
 	} else if (s1->H == e2->H) {
 		if (s1->M > e2->M) {
-			return 0;
+			return false;
 		}
 	} else if (s2->H == e1->H) {
 		if (s2->M > e1->M) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
-int entries_overlap(Entry *e1, Entry *e2, char day)
+bool entries_overlap(Entry *e1, Entry *e2, char day)
 {
 	Class **classes1 = e1->classes;
 	Class **classes2 = e2->classes;
@@ -47,15 +47,15 @@ int entries_overlap(Entry *e1, Entry *e2, char day)
 	for (i = 0; i < e1->num_classes; ++i) {
 		for (j = 0; j < e2->num_classes; ++j) {
 			if (classes_overlap(classes1[i], classes2[j], day)) {
-				return 1;
+				return true;
 			}
 		}
 	}
-	return 0;
+	return false;
 }
 
 
-int schedule_overlap(Schedule *sched, char day)
+bool schedule_overlap(Schedule *sched, char day)
 {
 	Entry **schedule = sched->entries;
 	unsigned int i, j;
@@ -69,7 +69,7 @@ int schedule_overlap(Schedule *sched, char day)
 	return 0;
 }
 
-int schedule_conflict(Schedule *sched)
+bool schedule_conflict(Schedule *sched)
 {
 	unsigned int i;
 	char days[] = "MTWRF";
@@ -77,10 +77,10 @@ int schedule_conflict(Schedule *sched)
 	for (i = 0; i < strlen(days); ++i) {
 		/* Iterate over each day */
 		if (schedule_overlap(sched, days[i])) {
-			return 1;
+			return true;
 		}
 	}
-	return 0;
+	return false;
 }
 
 int get_next_schedule(Schedule *sched, List *course_list)
@@ -88,8 +88,8 @@ int get_next_schedule(Schedule *sched, List *course_list)
 	Course **courses = course_list->courses;
 	Entry **schedule = sched->entries;
 	unsigned int i;
-	int increment_flag = 1;
-	static int first_time = 1;
+	bool increment_flag = true;
+	static bool first_time = true;
 
 	sched->num_entries = course_list->num_courses;
 
@@ -98,14 +98,14 @@ int get_next_schedule(Schedule *sched, List *course_list)
 			schedule[i] = courses[i]->entries[0];
 			courses[i]->selected_entry = 0;
 		}
-		first_time = 0;
+		first_time = false;
 		return 1;
 	}
 
 	for (i = 0; i < course_list->num_courses; ++i) {
 		if (increment_flag) {
 			courses[i]->selected_entry++;
-			increment_flag = 0;
+			increment_flag = false;
 		}
 		/* If current course has reached last entry,
 		 * reset and increment next */
@@ -118,7 +118,7 @@ int get_next_schedule(Schedule *sched, List *course_list)
 				return 0;
 			}
 			courses[i]->selected_entry = 0;
-			increment_flag = 1;	
+			increment_flag = true;
 		}
 		schedule[i] = courses[i]->entries[courses[i]->selected_entry];
 	}
@@ -134,7 +134,8 @@ void print_schedule(Schedule *sched)
 	puts("~~~~~~~POTENTIAL SCHEDULE~~~~~~~");
 	for (i = 0; i < sched->num_entries; ++i) {
 		classes = schedule[i]->classes;
-		printf("%s %d: %d\n", schedule[i]->dept, schedule[i]->course, schedule[i]->id);
+		printf("%s %d: %d\n", schedule[i]->dept, schedule[i]->course,
+		       schedule[i]->id);
 		for (j = 0; j < schedule[i]->num_classes; ++j) {
 			if (classes[j] == NULL) { continue; }
 			printf("\t%-3s %02d:%02d-%02d:%02d\n", classes[j]->days,

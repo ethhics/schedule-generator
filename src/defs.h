@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define MAX_ENTRIES 256
 #define MAX_CLASSES 256
@@ -25,23 +26,27 @@
 #define START_LEN 7
 #define END_LEN 7
 
-static const long unsigned int TOKEN_LENGTHS[] = { ID_LEN, DEPT_LEN,
-	COURSE_LEN, DAYS_LEN, START_LEN, END_LEN };
+static const long unsigned int TOKEN_LENGTHS[] = {ID_LEN, DEPT_LEN,
+						  COURSE_LEN, DAYS_LEN,
+						  START_LEN, END_LEN};
 
-typedef struct {
+typedef struct
+{
 	unsigned int H, M;
 } Time;
 
-typedef struct {
-	int empty;
+typedef struct
+{
+	bool empty;
 
 	char *days;
 	Time *start;
 	Time *end;
 } Class;
 
-typedef struct {
-	int empty;
+typedef struct
+{
+	bool empty;
 
 	int id;
 	char *dept;
@@ -51,8 +56,9 @@ typedef struct {
 	Class **classes;
 } Entry;
 
-typedef struct {
-	int empty;
+typedef struct
+{
+	bool empty;
 
 	char *dept;
 	int course;
@@ -62,31 +68,43 @@ typedef struct {
 	Entry **entries;
 } Course;
 
-typedef struct {
+typedef struct
+{
 	unsigned int num_courses;
 	Course **courses;
 } List;
 
-typedef struct {
+typedef struct
+{
 	unsigned int num_entries;
 	Entry **entries;
 } Schedule;
 
 /* input.c global functions */
-char *strsplit(char *str, char *token);
+void initialize_tokens(char **tokens);
+
+char *strsplit(const char *str, char token);
+
 void split_input_line(char **tokens, char *buffer);
+
 void parse_copy_tokens(char **tokens, char **prev_tokens);
 
 /* parse.c global functions */
-int is_empty(void *thing);
+bool is_empty(void *thing);
+
 void parse_time(Time *t, char *str);
+
 Course *get_course(List *course_list, char **tokens);
+
 Entry *get_entry(Course *course, char **tokens);
+
 Class *get_class(Entry *entry, char **tokens);
 
 /* schedule.c global functions */
 int get_next_schedule(Schedule *schedule, List *course_list);
-int schedule_conflict(Schedule *schedule);
+
+bool schedule_conflict(Schedule *schedule);
+
 void print_schedule(Schedule *schedule);
 
 #endif

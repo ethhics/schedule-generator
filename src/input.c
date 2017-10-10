@@ -11,6 +11,24 @@
 
 /***********************************************
  * Name:
+ * 	initialize_tokens
+ * Description:
+ * 	Initializes the tokens in token array
+ * Inputs:
+ * 	tokens
+ * Outputs:
+ * 	None
+ ***********************************************/
+void initialize_tokens(char **tokens)
+{
+	int i;
+	for (i = 0; i < NUM_TOKENS; ++i) {
+		tokens[i] = malloc(sizeof(*tokens[i]) * TOKEN_LENGTHS[i]);
+	}
+}
+
+/***********************************************
+ * Name:
  * 	strsplit
  * Description:
  * 	A rewrite of strok(). Doesn't output zero-length tokens when the
@@ -20,7 +38,7 @@
  * Outputs:
  * 	starting location of next token (char*)
  ***********************************************/
-char* strsplit(char *str, char *token)
+char *strsplit(const char *str, const char token)
 {
 	/* This is basically a rewrite of strtok() so that it doesn't suck */
 	static char *start;
@@ -29,19 +47,24 @@ char* strsplit(char *str, char *token)
 	char *initial;
 
 	/* If NULL is passed then use the current location */
-	if (str != NULL) start = str;
+	if (str != NULL) {
+		start = malloc(sizeof(*start) * (strlen(str) + 1));
+		strcpy(start, str);
+	}
 
 	/* Set initial to ignore leading whitespace */
 	for (initial = start; *initial != '\0'; ++initial) {
-		if (*initial != *token) {
+		if (*initial != token) {
 			break;
 		}
 	}
 
-	first_instance = strchr(initial, *token);
+	first_instance = strchr(initial, token);
+	if (first_instance == NULL)
+		first_instance = initial;
 
 	for (next_char = first_instance; *next_char != '\0'; ++next_char) {
-		if (*next_char != *token) {
+		if (*next_char != token) {
 			/* We've found the first character after the split that isn't
 			 * the same as the delimiter */
 			start = next_char;
@@ -65,12 +88,12 @@ char* strsplit(char *str, char *token)
  ***********************************************/
 void split_input_line(char **tokens, char *buffer)
 {
-	strcpy(tokens[0], strsplit(buffer, " "));
-	strcpy(tokens[1], strsplit(NULL, " "));
-	strcpy(tokens[2], strsplit(NULL, " "));
-	strcpy(tokens[3], strsplit(NULL, " "));
-	strcpy(tokens[4], strsplit(NULL, "-"));
-	strcpy(tokens[5], strsplit(NULL, "\n"));
+	strcpy(tokens[0], strsplit(buffer, ' '));
+	strcpy(tokens[1], strsplit(NULL, ' '));
+	strcpy(tokens[2], strsplit(NULL, ' '));
+	strcpy(tokens[3], strsplit(NULL, ' '));
+	strcpy(tokens[4], strsplit(NULL, '-'));
+	strcpy(tokens[5], strsplit(NULL, '\n'));
 }
 
 /***********************************************

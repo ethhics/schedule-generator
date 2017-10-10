@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include <assert.h>
 #include <string.h>
 
@@ -51,19 +50,20 @@ void clean_up(List *course_list)
 	free(course_list);
 }
 
-int main()
+bool parse_test()
 {
+	/* TODO: Add tests for is_empty() */
 	char goodt1[] = "12:34";
 	char goodt2[] = "23:45";
-	char badt1[]  = "24:00";
-	char badt2[]  = "14:60";
+	char badt1[] = "24:00";
+	char badt2[] = "14:60";
 
-	List *l = (List*) malloc(sizeof(List));
+	List *l = malloc(sizeof(*l));
 	Course *c;
 	Entry *e;
 	Class *cl;
 
-	Time *t = (Time*) malloc(sizeof(Time));
+	Time *t = malloc(sizeof(*t));
 
 	char tok1[] = "11111";
 	char tok2[] = "MATH";
@@ -91,7 +91,7 @@ int main()
 	parse_time(t, badt1);
 	assert(t->H == 24);
 	assert(t->M == 0);
-	
+
 	parse_time(t, badt2);
 	assert(t->H == 14);
 	assert(t->M == 60);
@@ -99,14 +99,14 @@ int main()
 	free(t);
 
 	l->num_courses = 1;
-	l->courses = (Course**) malloc(sizeof(Course*));
-	l->courses[0] = (Course*) malloc(sizeof(Course));
+	l->courses = malloc(sizeof(*l->courses));
+	l->courses[0] = malloc(sizeof(*l->courses[0]));
 	l->courses[0]->empty = 1;
 
 	c = get_course(l, tokens);
 	assert(strcmp(c->dept, "MATH") == 0);
 	assert(c->course == 111);
-	e  = get_entry(c, tokens);
+	e = get_entry(c, tokens);
 	assert(e->id == 11111);
 	assert(strcmp(e->dept, "MATH") == 0);
 	assert(e->course == 111);
@@ -119,6 +119,5 @@ int main()
 
 	clean_up(l);
 
-	puts("Tests of parse.c completed successfully.");
-	return 0;
+	return true;
 }
