@@ -11,7 +11,7 @@ void update_tokens(char **tok, char **prev)
 	}
 }
 
-int input_test()
+bool input_test()
 {
 	char good1[] = "12345 MATH 111 MWF 08:00-08:50\n";
 	char copy1[] = "  ~     ~   ~  TR  15:40-16:00\n";
@@ -93,5 +93,5 @@ int input_test()
 	assert(strcmp(tokens[5], "09:00") == 0);
 	update_tokens(tokens, prev_tokens);
 
-	return 1;
+	return true;
 }

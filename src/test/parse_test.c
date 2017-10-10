@@ -50,7 +50,7 @@ void clean_up(List *course_list)
 	free(course_list);
 }
 
-int parse_test()
+bool parse_test()
 {
 	/* TODO: Add tests for is_empty() */
 	char goodt1[] = "12:34";
@@ -119,5 +119,5 @@ int parse_test()
 
 	clean_up(l);
 
-	return 1;
+	return true;
 }

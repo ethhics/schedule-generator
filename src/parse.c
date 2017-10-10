@@ -22,9 +22,9 @@
  * Inputs:
  * 	thing
  * Outputs:
- * 	true if thing is empty (int)
+ * 	true if thing is empty
  ***********************************************/
-int is_empty(void *thing)
+bool is_empty(void *thing)
 {
 	/*
 	 * Because course, entry, and class all have 'int empty' at an offset
@@ -32,7 +32,7 @@ int is_empty(void *thing)
 	 * dereference.
 	 */
 	int *int_ptr = thing;
-	return *int_ptr;
+	return (bool) *int_ptr;
 }
 
 /***********************************************

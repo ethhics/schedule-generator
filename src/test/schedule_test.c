@@ -25,11 +25,11 @@ void test_classes_overlap()
 	cl[0] = c1;
 	cl[1] = c2;
 
-	assert(classes_overlap(c1, c2, 'M') == 0);
-	assert(classes_overlap(c1, c2, 'T') == 0);
-	assert(classes_overlap(c1, c2, 'W') == 0);
-	assert(classes_overlap(c1, c2, 'R') == 0);
-	assert(classes_overlap(c1, c2, 'F') == 0);
+	assert(!classes_overlap(c1, c2, 'M'));
+	assert(!classes_overlap(c1, c2, 'T'));
+	assert(!classes_overlap(c1, c2, 'W'));
+	assert(!classes_overlap(c1, c2, 'R'));
+	assert(!classes_overlap(c1, c2, 'F'));
 
 	free(c1->days);
 	free(c1);
@@ -40,7 +40,7 @@ void test_classes_overlap()
 
 #pragma clang diagnostic pop
 
-int schedule_test()
+bool schedule_test()
 {
 	/* TODO: write all schedule tests */
 	/* test_classes_overlap();
@@ -49,5 +49,5 @@ int schedule_test()
 	test_schedule_conflict();
 	test_get_next_schedule();
 	test_print_schedule(); */
-	return 1;
+	return true;
 }

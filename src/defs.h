@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define MAX_ENTRIES 256
 #define MAX_CLASSES 256
@@ -36,7 +37,7 @@ typedef struct
 
 typedef struct
 {
-	int empty;
+	bool empty;
 
 	char *days;
 	Time *start;
@@ -45,7 +46,7 @@ typedef struct
 
 typedef struct
 {
-	int empty;
+	bool empty;
 
 	int id;
 	char *dept;
@@ -57,7 +58,7 @@ typedef struct
 
 typedef struct
 {
-	int empty;
+	bool empty;
 
 	char *dept;
 	int course;
@@ -89,7 +90,7 @@ void split_input_line(char **tokens, char *buffer);
 void parse_copy_tokens(char **tokens, char **prev_tokens);
 
 /* parse.c global functions */
-int is_empty(void *thing);
+bool is_empty(void *thing);
 
 void parse_time(Time *t, char *str);
 
@@ -102,7 +103,7 @@ Class *get_class(Entry *entry, char **tokens);
 /* schedule.c global functions */
 int get_next_schedule(Schedule *schedule, List *course_list);
 
-int schedule_conflict(Schedule *schedule);
+bool schedule_conflict(Schedule *schedule);
 
 void print_schedule(Schedule *schedule);
 

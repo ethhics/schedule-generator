@@ -1,10 +1,11 @@
 #include <stdio.h>
+#include <stdbool.h>
 
-extern int input_test();
+extern bool input_test();
 
-extern int parse_test();
+extern bool parse_test();
 
-extern int schedule_test();
+extern bool schedule_test();
 
 int main()
 {
