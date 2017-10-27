@@ -169,6 +169,7 @@ int main(int argc, char *argv[])
 
 		if (cur_class == NULL) {
 			/* This class has already been entered */
+			printf("Class %s has already been entered!", line_tokens[0]);
 			puts("You've already entered that class!");
 		}
 
