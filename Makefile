@@ -4,7 +4,7 @@ CFLAGS=-g -O0 -Wall -Wextra -pedantic
 SRC := $(wildcard src/*.c)
 TEST := $(wildcard src/test/*.c) $(filter-out src/main.c, $(SRC))
 
-all: sched-gen test
+all: setup sched-gen test
 
 setup:
 	mkdir -p bin
