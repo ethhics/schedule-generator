@@ -1,7 +1,5 @@
 /*
- * main.c - Controls the flow of the program
- *
- * MIT License - Copyright (c) 2017 Zach Scott
+ * Copyright © 2019 Zach Scott under the MIT License
  *
  * This software is subject to the terms and conditions defined in the file
  * 'LICENSE', which should be included with this package.

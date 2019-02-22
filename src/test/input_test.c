@@ -1,3 +1,10 @@
+/*
+ * Copyright © 2019 Zach Scott under the MIT License
+ *
+ * This software is subject to the terms and conditions defined in the file
+ * 'LICENSE', which should be included with this package.
+ */
+
 #include <assert.h>
 #include <string.h>
 
