@@ -5,9 +5,6 @@
  * 'LICENSE', which should be included with this package.
  */
 
-#ifndef SCHEDULE_HEADER
-#define SCHEDULE_HEADER
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -104,5 +101,3 @@ int get_next_schedule(Schedule *schedule, List *course_list);
 bool schedule_conflict(Schedule *schedule);
 
 void print_schedule(Schedule *schedule);
-
-#endif

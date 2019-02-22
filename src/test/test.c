@@ -8,21 +8,19 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-extern bool input_test();
-
-extern bool parse_test();
-
-extern bool schedule_test();
+extern bool input_test(), parse_test(), schedule_test();
 
 int
 main()
-/* run tests */
 {
+	printf("input.c - ");
 	if (input_test())
-		puts("Tests of input.c completed successfully.");
+		printf("passed!\n");
+	printf("parse.c - ");
 	if (parse_test())
-		puts("Tests of parse.c completed successfully.");
+		printf("passed!\n");
+	printf("schedule.c - ");
 	if (schedule_test())
-		puts("Tests of schedule.c completed successfully.");
+		printf("passed!\n");
 	return 0;
 }
