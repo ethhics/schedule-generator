@@ -10,7 +10,8 @@
 
 #include "../defs.h"
 
-void update_tokens(char **tok, char **prev)
+void
+update_tokens(char **tok, char **prev)
 {
 	int i;
 	for (i = 0; i < 6; ++i) {
@@ -18,7 +19,8 @@ void update_tokens(char **tok, char **prev)
 	}
 }
 
-bool input_test()
+bool
+input_test()
 {
 	char good1[] = "12345 MATH 111 MWF 08:00-08:50\n";
 	char copy1[] = "  ~     ~   ~  TR  15:40-16:00\n";

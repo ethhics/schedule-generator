@@ -11,18 +11,9 @@
  * ID DEPT COURSE DAYS START-END
  * [0] [1]   [2]   [3]  [4]  [5] */
 
-/***********************************************
- * Name:
- * 	is_empty
- * Description:
- * 	Determines if a thing is empty. Thing can be a course, entry, or class.
- * 	The behavior is undefined for things that aren't one of these structs
- * Inputs:
- * 	thing
- * Outputs:
- * 	true if thing is empty
- ***********************************************/
-bool is_empty(void *thing)
+bool
+is_empty(void *thing)
+/* determines if a course, entry, or class is empty */
 {
 	/*
 	 * Because course, entry, and class all have 'int empty' at an offset
@@ -33,17 +24,9 @@ bool is_empty(void *thing)
 	return (bool) *int_ptr;
 }
 
-/***********************************************
- * Name:
- * 	parse_time
- * Description:
- * 	Parses a string into a time object
- * Inputs:
- * 	t, str
- * Outputs:
- * 	None
- ***********************************************/
-void parse_time(Time *t, char *str)
+void
+parse_time(Time *t, char *str)
+/* parses a string into a time object */
 {
 	int H = strtol(strsplit(str, ':'), NULL, 10);
 	int M = strtol(strsplit(NULL, '\0'), NULL, 10);
@@ -55,17 +38,9 @@ void parse_time(Time *t, char *str)
 	t->M = (unsigned int) M;
 }
 
-/***********************************************
- * Name:
- * 	get_course
- * Description:
- * 	fetches a course in the course list, or makes one if it doesn't exist
- * Inputs:
- * 	course_list, tokens
- * Outputs:
- * 	the fetched or made course (Course*)
- ***********************************************/
-Course *get_course(List *course_list, char **tokens)
+Course *
+get_course(List *course_list, char **tokens)
+/* fetches a course in the course list, making it if necessary */
 {
 	Course **courses = course_list->courses;
 	Course *cur_course;
@@ -107,17 +82,9 @@ Course *get_course(List *course_list, char **tokens)
 	return cur_course;
 }
 
-/***********************************************
- * Name:
- * 	get_entry
- * Description:
- * 	fetches an entry in the course, or makes one if it doesn't exist
- * Inputs:
- * 	course, tokens
- * Outputs:
- * 	the fetched or made entry (Entry*)
- ***********************************************/
-Entry *get_entry(Course *course, char **tokens)
+Entry *
+get_entry(Course *course, char **tokens)
+/* fetches an entry from a course, making it if necessary */
 {
 	Entry **entries = course->entries;
 	Entry *cur_entry;
@@ -163,17 +130,9 @@ Entry *get_entry(Course *course, char **tokens)
 	return cur_entry;
 }
 
-/***********************************************
- * Name:
- * 	get_class
- * Description:
- * 	Fetches a class in the entry, or makes one if it doesn't exist
- * Inputs:
- * 	entry, tokens
- * Outputs:
- * 	the fetched or made class (Class*)
- ***********************************************/
-Class *get_class(Entry *entry, char **tokens)
+Class *
+get_class(Entry *entry, char **tokens)
+/* fetches a class from an entry, making it if necessary */
 {
 	Class **classes = entry->classes;
 	Class *cur_class;

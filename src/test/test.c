@@ -14,7 +14,9 @@ extern bool parse_test();
 
 extern bool schedule_test();
 
-int main()
+int
+main()
+/* run tests */
 {
 	if (input_test())
 		puts("Tests of input.c completed successfully.");

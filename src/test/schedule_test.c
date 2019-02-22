@@ -13,7 +13,8 @@
 
 extern int classes_overlap(Class *c1, Class *c2, char day);
 
-void test_classes_overlap()
+void
+test_classes_overlap()
 {
 	Class *c1 = malloc(sizeof(*c1));
 	Class *c2 = malloc(sizeof(*c2));
@@ -42,7 +43,8 @@ void test_classes_overlap()
 	free(cl);
 }
 
-bool schedule_test()
+bool
+schedule_test()
 {
 	/* TODO: write all schedule tests */
 	/* test_classes_overlap();

@@ -7,7 +7,9 @@
 
 #include "defs.h"
 
-bool classes_overlap(Class *c1, Class *c2, char day)
+bool
+classes_overlap(Class *c1, Class *c2, char day)
+/* checks if classes have overlapping times */
 {
 	Time *s1, *e1, *s2, *e2;
 
@@ -35,7 +37,9 @@ bool classes_overlap(Class *c1, Class *c2, char day)
 	return true;
 }
 
-bool entries_overlap(Entry *e1, Entry *e2, char day)
+bool
+entries_overlap(Entry *e1, Entry *e2, char day)
+/* checks if entries have overlapping classes */
 {
 	Class **classes1 = e1->classes;
 	Class **classes2 = e2->classes;
@@ -53,7 +57,9 @@ bool entries_overlap(Entry *e1, Entry *e2, char day)
 }
 
 
-bool schedule_overlap(Schedule *sched, char day)
+bool
+schedule_overlap(Schedule *sched, char day)
+/* checks if a schedule has overlaps on the given day */
 {
 	Entry **schedule = sched->entries;
 	unsigned int i, j;
@@ -67,7 +73,9 @@ bool schedule_overlap(Schedule *sched, char day)
 	return 0;
 }
 
-bool schedule_conflict(Schedule *sched)
+bool
+schedule_conflict(Schedule *sched)
+/* checks if a schedule has conflicts */
 {
 	unsigned int i;
 	char days[] = "MTWRF";
@@ -81,7 +89,9 @@ bool schedule_conflict(Schedule *sched)
 	return false;
 }
 
-int get_next_schedule(Schedule *sched, List *course_list)
+int
+get_next_schedule(Schedule *sched, List *course_list)
+/* gets the next schedule */
 {
 	Course **courses = course_list->courses;
 	Entry **schedule = sched->entries;
@@ -123,7 +133,9 @@ int get_next_schedule(Schedule *sched, List *course_list)
 	return 1;
 }
 
-void print_schedule(Schedule *sched)
+void
+print_schedule(Schedule *sched)
+/* prints a schedule */
 {
 	Entry **schedule = sched->entries;
 	unsigned int i, j;

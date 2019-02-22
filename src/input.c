@@ -7,17 +7,9 @@
 
 #include "defs.h"
 
-/***********************************************
- * Name:
- * 	initialize_tokens
- * Description:
- * 	Initializes the tokens in token array
- * Inputs:
- * 	tokens
- * Outputs:
- * 	None
- ***********************************************/
-void initialize_tokens(char **tokens)
+void
+initialize_tokens(char **tokens)
+/* initialize the tokens in a token array */
 {
 	int i;
 	for (i = 0; i < NUM_TOKENS; ++i) {
@@ -25,18 +17,9 @@ void initialize_tokens(char **tokens)
 	}
 }
 
-/***********************************************
- * Name:
- * 	strsplit
- * Description:
- * 	A rewrite of strok(). Doesn't output zero-length tokens when the
- * 	delimeter is repeated
- * Inputs:
- * 	str, token
- * Outputs:
- * 	starting location of next token (char*)
- ***********************************************/
-char *strsplit(const char *str, const char token)
+char *
+strsplit(const char *str, const char token)
+/* strtok() without zero-length tokens on delimeter repeat */
 {
 	/* This is basically a rewrite of strtok() so that it doesn't suck */
 	static char *start;
@@ -74,17 +57,9 @@ char *strsplit(const char *str, const char token)
 	return initial;
 }
 
-/***********************************************
- * Name:
- * 	split_input_line
- * Description:
- * 	Splits a line of input into an array of tokens
- * Inputs:
- * 	tokens, buffer
- * Outputs:
- * 	None
- ***********************************************/
-void split_input_line(char **tokens, char *buffer)
+void
+split_input_line(char **tokens, char *buffer)
+/* lex a line of input into a token array */
 {
 	strcpy(tokens[0], strsplit(buffer, ' '));
 	strcpy(tokens[1], strsplit(NULL, ' '));
@@ -94,17 +69,9 @@ void split_input_line(char **tokens, char *buffer)
 	strcpy(tokens[5], strsplit(NULL, '\n'));
 }
 
-/***********************************************
- * Name:
- * 	parse_copy_tokens
- * Description:
- * 	Replaces copy tokens with the previous token for that slot.
- * Inputs:
- * 	tokens, prev_tokens
- * Outputs:
- * 	None
- ***********************************************/
-void parse_copy_tokens(char **tokens, char **prev_tokens)
+void
+parse_copy_tokens(char **tokens, char **prev_tokens)
+/* replaces copy tokens with the correct previous value */
 {
 	int i;
 

@@ -11,7 +11,8 @@
 
 #include "../defs.h"
 
-void clean_up(List *course_list)
+void
+clean_up(List *course_list)
 {
 	Course *cur_course;
 	Entry **cur_entries;
@@ -57,7 +58,8 @@ void clean_up(List *course_list)
 	free(course_list);
 }
 
-bool parse_test()
+bool
+parse_test()
 {
 	/* TODO: Add tests for is_empty() */
 	char goodt1[] = "12:34";
